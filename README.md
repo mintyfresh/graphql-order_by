@@ -34,8 +34,8 @@ class UserOrderByType < BaseOrderByEnum
     User.order(id: direction)
   end
 
-  order_by 'USERNAME' do |direction|
-    User.order(username: direction)
+  order_by 'NAME' do |direction|
+    User.order(first_name: direction, last_name: direction, id: direction)
   end
 
   order_by 'SPENDING' do |direction|

@@ -15,10 +15,6 @@ Layout/AccessModifierIndentation:
 Layout/SpaceInLambdaLiteral:
   EnforcedStyle: require_space
 
-Lint/UnusedBlockArgument:
-  Exclude:
-    - lib/generators/graphql/permissions/templates/initializer.rb
-
 Style/Documentation:
   Enabled: false
 
