@@ -84,14 +84,14 @@ enum UserOrderBy {
 
 type UserGroup {
   id: ID!
-  // ...
+  # ...
   users(orderBy: UserOrderBy = ID, orderByDirection: OrderByDirection = ASC): [User!]!
 }
 ```
 
 ### Generating Order-By Enums
 
-  $ bin/rails generate graphql:order_by:enum PurchaseOrderBy
+    $ bin/rails generate graphql:order_by:enum PurchaseOrderBy
 
 This will generate the file `app/graphql/types/purchase_order_by_type.rb`, which would look like:
 
