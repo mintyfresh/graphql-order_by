@@ -4,13 +4,14 @@ require_relative 'lib/graphql/order_by/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'graphql-order_by'
-  spec.version       = Graphql::OrderBy::VERSION
+  spec.version       = GraphQL::OrderBy::VERSION
   spec.authors       = ['Minty Fresh']
   spec.email         = ['7896757+mintyfresh@users.noreply.github.com']
 
   spec.summary       = 'ActiveRecord Order-By plugin for GraphQL Ruby'
   spec.description   = spec.summary
   spec.homepage      = 'https://github.com/mintyfresh/graphql-order_by'
+
   spec.required_ruby_version = Gem::Requirement.new('>= 2.7.0')
 
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'

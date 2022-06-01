@@ -3,6 +3,8 @@
 module GraphQL
   module OrderBy
     class DirectionType < GraphQL::Schema::Enum
+      graphql_name 'OrderByDirection'
+
       value 'ASC', value: :asc
       value 'DESC', value: :desc
 

@@ -20,6 +20,12 @@ Or install it yourself as:
 
     $ gem install graphql-order_by
 
+Finally, run the install generator:
+
+    $ bin/rails generator graphql:order_by:install
+
+This will generate a `BaseOrderByEnum` class for your application.
+
 ## Usage
 
 ```ruby
