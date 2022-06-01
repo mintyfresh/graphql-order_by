@@ -1,4 +1,4 @@
-# Graphql::OrderBy
+# GraphQL::OrderBy
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/graphql/order_by`. To experiment with that code, run `bin/console` for an interactive prompt.
 
@@ -40,7 +40,7 @@ class UserOrderByType < BaseOrderByEnum
 
   order_by 'SPENDING' do |direction|
     # Direction here is a mapped value coming from a GraphQL enum
-    # Its possible values are `:asc` and `:desc`
+    # Its only possible values are `:asc` and `:desc`
     User.joins(:purchases).group(:id).order(Purchase.arel_table[:total].sum.send(direction))
   end
 end
@@ -72,6 +72,22 @@ end
 ```
 
 The resolver method for the field will receive an `order_by_scope` argument. This argument contains the ActiveRecord::Relation object produced by the block that corresponds to the `order_by` and `order_by_direction` arguments received from the client.
+
+The resulting GraphQL schema will look approximately like this:
+
+```graphql
+enum UserOrderBy {
+  ID
+  NAME
+  SPENDING
+}
+
+type UserGroup {
+  id: ID!
+  // ...
+  users(orderBy: UserOrderBy = ID, orderByDirection: OrderByDirection = ASC): [User!]!
+}
+```
 
 ### Generating Order-By Enums
 
