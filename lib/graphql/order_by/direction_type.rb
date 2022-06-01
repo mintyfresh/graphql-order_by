@@ -5,8 +5,13 @@ module GraphQL
     class DirectionType < GraphQL::Schema::Enum
       graphql_name 'OrderByDirection'
 
-      value 'ASC', value: :asc
-      value 'DESC', value: :desc
+      value 'ASC', value: :asc do
+        description 'Indicates that the results should be sorted in ascending order, from smallest to largest.'
+      end
+
+      value 'DESC', value: :desc do
+        description 'Indicates that the results should be sorted in descending order, from largest to smallest.'
+      end
 
       # @return [Symbol]
       def self.default_value

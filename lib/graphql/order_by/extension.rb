@@ -4,12 +4,16 @@ module GraphQL
   module OrderBy
     class Extension < GraphQL::Schema::FieldExtension
       def apply
-        order_by_type = options[:type]
+        order_by_type = options.fetch(:type) do
+          raise ArgumentError, "#{self.class.name} requires a `type` option to be provided"
+        end
 
         default_order_by = options.fetch(:default) { order_by_type.default_value }
         default_order_by_direction = options.fetch(:default_direction) { DirectionType.default_value }
 
-        field.argument(:order_by, order_by_type, required: false, default_value: default_order_by)
+        field.argument(:order_by, order_by_type, required: false, default_value: default_order_by) do
+          description 'Specifies the criteria by which to sort the results.'
+        end
         field.argument(:order_by_direction, DirectionType, required: false, default_value: default_order_by_direction)
       end
 
