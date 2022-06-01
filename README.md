@@ -22,7 +22,7 @@ Or install it yourself as:
 
 Finally, run the install generator:
 
-    $ bin/rails generator graphql:order_by:install
+    $ bin/rails generate graphql:order_by:install
 
 This will generate a `BaseOrderByEnum` class for your application.
 
@@ -46,11 +46,20 @@ class UserOrderByType < BaseOrderByEnum
 end
 ```
 
+Each `order_by` block must accept a direction (a value of either `:asc` or `:desc`) and produce an ActiveRecord::Relation object that applies the desired ordering to a query.
+
+Once defined, we can use this enum type by supplying it to the `GraphQL::OrderBy::Extension` field extension:
+
 ```ruby
 class UserGroupType < BaseObject
   field :id, ID
   # ...
   field :users, [UserType] do
+    # This extension adds two arguments to the field, equivalent to:
+    #   argument :order_by, UserOrderByType, required: false, default_value: UserOrderByType.default_value
+    #   argument :order_by_direction, GraphQL::OrderBy::DirectionType, required: false, default_value: :asc
+    #
+    # These arguments are handled internally by the extension, and are transformed into an `order_by_scope` keyword-argument for the resolver.
     extension GraphQL::OrderBy::Extension, type: UserOrderByType
   end
 
@@ -60,6 +69,32 @@ class UserGroupType < BaseObject
     object.users.merge(order_by_scope)
   end
 end
+```
+
+The resolver method for the field will receive an `order_by_scope` argument. This argument contains the ActiveRecord::Relation object produced by the block that corresponds to the `order_by` and `order_by_direction` arguments received from the client.
+
+### Generating Order-By Enums
+
+  $ bin/rails generate graphql:order_by:enum PurchaseOrderBy
+
+This will generate the file `app/graphql/types/purchase_order_by_type.rb`, which would look like:
+
+```ruby
+# frozen_string_literal: true
+
+module Types
+  class PurchaseOrderByType < BaseOrderByEnum
+    # TODO: Add order-by values
+  end
+end
+```
+
+### Overriding the Default Sort Direction
+
+The default direction can be changed to descending order by supplying a `default_direction`:
+
+```ruby
+extension GraphQL::OrderBy::Extension, type: UserOrderByType, default_direction: :desc
 ```
 
 ## Development
